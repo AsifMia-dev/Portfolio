@@ -1,0 +1,356 @@
+import { motion } from "framer-motion";
+
+/* ── SWAP with your actual photo ── */
+const PHOTO_URL = "";
+
+const GithubIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/>
+  </svg>
+);
+const LinkedinIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+  </svg>
+);
+const TwitterIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+  </svg>
+);
+
+const fu = (d = 0) => ({
+  initial: { opacity: 0, y: 26 },
+  animate: { opacity: 1, y: 0 },
+  transition: { delay: d, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+});
+
+const CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+   body { background: #0f0e2a; margin: 0; }
+
+  .hero {
+    width: 100%;
+    min-height: 100vh;
+    background: #0f0e2a;
+    
+    padding: 5px 2rem 0 6rem;
+    margin: auto;
+    display: flex;
+    align-items: stretch;
+    position: relative;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ── LEFT PANEL ── */
+  .hero-left {
+    position: relative;
+    z-index: 2;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0.5rem 0 80px 7.5rem;
+  }
+
+  /* available badge */
+  .hero-avail {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(34,211,238,0.35);
+    background: rgba(34,211,238,0.06);
+    border-radius: 100px;
+    padding: 6px 16px;
+    width: fit-content;
+    margin-bottom: 36px;
+  }
+  .hero-avail-dot {
+    width: 7px; height: 10px;
+    border-radius: 50%;
+    background: #22d3ee;
+    box-shadow: 0 0 8px #22d3ee;
+    flex-shrink: 0;
+  }
+  .hero-avail-text {
+    font-family: sens serif;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #22d3ee;
+  }
+
+  /* title */
+  .hero-title {
+    font-family: sans-serif;
+    font-weight: 800;
+    font-size: clamp(44px, 5.8vw, 80px);
+    line-height: 1.05;
+    letter-spacing: -2.5px;
+    color: #f0f0ff;
+    margin-bottom: 28px;
+  }
+  .hero-title .grad {
+    background: linear-gradient(90deg, #22d3ee 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* desc */
+  .hero-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.78;
+    color: rgba(210,210,255,0.55);
+    margin-bottom: 40px;
+    max-width: 440px;
+  }
+
+  /* buttons */
+  .hero-btns {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 52px;
+    flex-wrap: wrap;
+  }
+  .btn-fill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, #06b6d4, #6366f1);
+    color: #fff;
+    border: none;
+    padding: 13px 30px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity .18s, transform .15s;
+    white-space: nowrap;
+  }
+  .btn-fill:hover { opacity: .85; transform: translateY(-1px); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    color: #f0f0ff;
+    border: 1.5px solid rgba(240,240,255,0.22);
+    padding: 13px 30px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: border-color .18s, transform .15s;
+    white-space: nowrap;
+  }
+  .btn-outline:hover { border-color: rgba(240,240,255,0.5); transform: translateY(-1px); }
+
+  /* social */
+  .hero-social {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-social-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(210,210,255,0.3);
+    margin-right: 4px;
+  }
+  .hero-social-ico {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(240,240,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(210,210,255,0.5);
+    text-decoration: none;
+    transition: color .18s, border-color .18s, transform .15s;
+  }
+  .hero-social-ico:hover {
+    color: #f0f0ff;
+    border-color: rgba(240,240,255,0.35);
+    transform: translateY(-2px);
+  }
+
+  /* ── DIAGONAL SLASH ── */
+  .hero-slash {
+    position: absolute;
+    top: 0; bottom: 0;
+    /* sits right at the split point */
+    left: calc(55% - 60px);
+    width: 120px;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .hero-slash svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ── RIGHT PANEL ── */
+  .hero-right {
+    position: relative;
+    z-index: 2;
+    width: 40%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 4rem 48px 0 0;
+  }
+
+  /* photo card */
+  .hero-photo-card {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.07);
+    background: #1a1830;
+  }
+  .hero-photo-card img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.5));
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  /* currently building bar */
+  .hero-now-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: rgba(15,14,42,0.92);
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .hero-now-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hero-now-icon svg {
+    width: 18px; height: 18px;
+    fill: #fff;
+  }
+  .hero-now-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(210,210,255,0.4);
+    margin-bottom: 3px;
+  }
+  .hero-now-val {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f0f0ff;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 860px) {
+    .hero { flex-direction: column; }
+    .hero-left { width: 100%; padding: 60px 28px 40px; }
+    .hero-right { width: 100%; padding: 0 28px 60px; justify-content: flex-start; }
+    .hero-slash { display: none; }
+    .hero-photo-card { max-width: 100%; }
+  }
+`;
+
+export default function Hero() {
+  return (
+    <>
+      <style>{CSS}</style>
+      <section className="hero">
+
+        {/* LEFT */}
+        <div className="hero-left">
+
+          <motion.div className="hero-avail" {...fu(0.1)}>
+            <div className="hero-avail-dot" />
+            <span className="hero-avail-text">Available for new opportunities</span>
+          </motion.div>
+
+          <motion.h1 className="hero-title" {...fu(0.2)}>
+            Aspiring<br />
+            <span className="grad">Backend Engineer</span><br />
+            JavaScript<br />
+            Developer
+          </motion.h1>
+
+          <motion.p className="hero-desc" {...fu(0.32)}>
+            I specialize in building scalable systems, solving complex
+            logic problems, and crafting robust backend architectures.
+            Focused on performance and clean code.
+          </motion.p>
+
+          <motion.div className="hero-btns" {...fu(0.42)}>
+            <motion.button className="btn-fill" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+              View Projects →
+            </motion.button>
+            <motion.button className="btn-outline" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+              Contact Me
+            </motion.button>
+          </motion.div>
+
+          <motion.div className="hero-social" {...fu(0.52)}>
+            <span className="hero-social-lbl">Connect:</span>
+            {[GithubIcon, LinkedinIcon, TwitterIcon].map((Icon, i) => (
+              <motion.a
+                key={i} href="#"
+                className="hero-social-ico"
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <Icon />
+              </motion.a>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Diagonal slash divider */}
+        <div className="hero-slash">
+          <svg viewBox="0 0 120 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            {/* dark wedge that forms the left edge of the slash */}
+            <polygon points="0,0 60,0 120,900 0,900" fill="#0f0e2a" />
+            {/* thin bright line on the diagonal edge */}
+            <line x1="60" y1="0" x2="120" y2="900" stroke="rgba(100,100,180,0.18)" strokeWidth="1.5" />
+          </svg>
+        </div>
+
+        {/* RIGHT */}
+        <div className="hero-right">
+          <motion.div
+            className="hero-photo-card"
+            initial={{ opacity: 0, x: 40, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <img src={PHOTO_URL} />
+          </motion.div>
+        </div>
+
+      </section>
+    </>
+  );
+}
