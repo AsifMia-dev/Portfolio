@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 /* ── SWAP with your actual photo ── */
-const PHOTO_URL = "";
+const PHOTO_URL = new URL("../assets/me.png", import.meta.url).href;
 
 const GithubIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -33,7 +33,7 @@ const CSS = `
 
   .hero {
     width: 100%;
-    min-height: 100vh;
+    min-height: 85vh;
     background: #0f0e2a;
     
     padding: 5px 2rem 0 6rem;
@@ -56,32 +56,7 @@ const CSS = `
     padding: 0.5rem 0 80px 7.5rem;
   }
 
-  /* available badge */
-  .hero-avail {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    border: 1px solid rgba(34,211,238,0.35);
-    background: rgba(34,211,238,0.06);
-    border-radius: 100px;
-    padding: 6px 16px;
-    width: fit-content;
-    margin-bottom: 36px;
-  }
-  .hero-avail-dot {
-    width: 7px; height: 10px;
-    border-radius: 50%;
-    background: #22d3ee;
-    box-shadow: 0 0 8px #22d3ee;
-    flex-shrink: 0;
-  }
-  .hero-avail-text {
-    font-family: sens serif;
-    font-size: 12px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #22d3ee;
-  }
+ 
 
   /* title */
   .hero-title {
@@ -194,10 +169,6 @@ const CSS = `
     z-index: 3;
     pointer-events: none;
   }
-  .hero-slash svg {
-    width: 100%;
-    height: 100%;
-  }
 
   /* ── RIGHT PANEL ── */
   .hero-right {
@@ -207,7 +178,7 @@ const CSS = `
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 4rem 48px 0 0;
+    padding: 5rem 48px 0 0;
   }
 
   /* photo card */
@@ -218,7 +189,7 @@ const CSS = `
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-    border: 1px solid rgba(255,255,255,0.07);
+
     background: #1a1830;
   }
   .hero-photo-card img {
@@ -268,11 +239,25 @@ const CSS = `
   }
 
   /* ── Responsive ── */
+  // @media (max-width: 860px) {
+  //   .hero { flex-direction: column; }
+  //   .hero-left { width: 100%; padding: 60px 28px 40px; }
+  //   .hero-right { display: none; }
+  //   .hero-slash { display: none; }
+  //   .hero-photo-card { max-width: 100%; }
+  // }
+
+  /* ── Responsive ── */
+
+  /* Hide slash earlier before overlap starts */
+  @media (max-width: 1024px) {
+    .hero-slash { display: none; }
+  }
+
   @media (max-width: 860px) {
     .hero { flex-direction: column; }
     .hero-left { width: 100%; padding: 60px 28px 40px; }
-    .hero-right { width: 100%; padding: 0 28px 60px; justify-content: flex-start; }
-    .hero-slash { display: none; }
+    .hero-right { display: none; }
     .hero-photo-card { max-width: 100%; }
   }
 `;
@@ -285,12 +270,6 @@ export default function Hero() {
 
         {/* LEFT */}
         <div className="hero-left">
-
-          <motion.div className="hero-avail" {...fu(0.1)}>
-            <div className="hero-avail-dot" />
-            <span className="hero-avail-text">Available for new opportunities</span>
-          </motion.div>
-
           <motion.h1 className="hero-title" {...fu(0.2)}>
             Aspiring<br />
             <span className="grad">Backend Engineer</span><br />
@@ -299,9 +278,9 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p className="hero-desc" {...fu(0.32)}>
-            I specialize in building scalable systems, solving complex
-            logic problems, and crafting robust backend architectures.
-            Focused on performance and clean code.
+            I craft fullstack web apps. A CSE graduate driven by
+            curiosity in Backend Engineering and AI, turning
+            complex ideas into real, working solutions.
           </motion.p>
 
           <motion.div className="hero-btns" {...fu(0.42)}>
@@ -327,17 +306,6 @@ export default function Hero() {
             ))}
           </motion.div>
         </div>
-
-        {/* Diagonal slash divider */}
-        <div className="hero-slash">
-          <svg viewBox="0 0 120 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            {/* dark wedge that forms the left edge of the slash */}
-            <polygon points="0,0 60,0 120,900 0,900" fill="#0f0e2a" />
-            {/* thin bright line on the diagonal edge */}
-            <line x1="60" y1="0" x2="120" y2="900" stroke="rgba(100,100,180,0.18)" strokeWidth="1.5" />
-          </svg>
-        </div>
-
         {/* RIGHT */}
         <div className="hero-right">
           <motion.div

@@ -1,0 +1,149 @@
+import { motion } from "framer-motion";
+import {
+  FaHtml5,
+  FaCss3Alt,
+  FaJs,
+  FaReact,
+  FaNodeJs,
+} from "react-icons/fa";
+import { SiExpress, SiMysql } from "react-icons/si";
+
+/* ── Tech Data with Brand Colors ── */
+const techs = [
+  { name: "HTML", icon: FaHtml5, color: "#E34F26" },
+  { name: "CSS", icon: FaCss3Alt, color: "#1572B6" },
+  { name: "JavaScript", icon: FaJs, color: "#F7DF1E" },
+  { name: "React", icon: FaReact, color: "#61DAFB" },
+  { name: "Node.js", icon: FaNodeJs, color: "#339933" },
+  { name: "Express", icon: SiExpress, color: "#FFFFFF" },
+  { name: "SQL", icon: SiMysql, color: "#4479A1" },
+];
+
+/* ── Animation ── */
+const fadeUp = (d = 0) => ({
+  initial: { opacity: 0, y: 25 },
+  animate: { opacity: 1, y: 0 },
+  transition: { delay: d, duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+});
+
+/* ── CSS ── */
+const CSS = `
+.tech {
+  width: 100%;
+  background: #0f0e2a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+
+  padding: 20px 20px; /* reduced spacing */
+}
+
+/* heading */
+.tech-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  color: #f0f0ff;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+/* underline */
+.tech-title::after {
+  content: "";
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #22d3ee, #a78bfa);
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  transform: translateX(-50%);
+  border-radius: 10px;
+}
+
+/* row */
+.tech-row {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* card */
+.tech-card {
+  width: 105px;
+  height: 105px;
+  border-radius: 16px;
+  background: #1a1830;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.tech-card:hover {
+  transform: translateY(-6px) scale(1.06);
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* icon */
+.tech-icon {
+  font-size: 32px;
+  transition: 0.2s ease;
+}
+
+/* glow effect */
+.tech-card:hover .tech-icon {
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+/* text */
+.tech-name {
+  font-size: 13px;
+  color: #cbd5f5;
+}
+
+.tech-card:hover .tech-name {
+  color: #fff;
+}
+`;
+
+export default function TechStack() {
+  return (
+    <>
+      <style>{CSS}</style>
+
+      <section className="tech">
+        <motion.h2 className="tech-title" {...fadeUp(0.2)}>
+          Tech Stack
+        </motion.h2>
+
+        <motion.div className="tech-row" {...fadeUp(0.4)}>
+          {techs.map((tech, i) => {
+            const Icon = tech.icon;
+
+            return (
+              <motion.div
+                key={i}
+                className="tech-card"
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Icon
+                  className="tech-icon"
+                  style={{ color: tech.color }}
+                />
+                <span className="tech-name">{tech.name}</span>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </section>
+    </>
+  );
+}
