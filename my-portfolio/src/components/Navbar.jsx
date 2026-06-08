@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Updated NAV_LINKS with correct section IDs
 const NAV_LINKS = [
-  { label: "Home", href: "#" },
-  { label: "Work", href: "#" },
-  { label: "About", href: "#" },
-  { label: "Contact", href: "#" },
+  { label: "Home", href: "#hero", sectionId: "hero" },
+  { label: "Work", href: "#projects", sectionId: "projects" },
+  { label: "About", href: "#whoiam", sectionId: "whoiam" },
+  { label: "Contact", href: "#contact", sectionId: "contact" },
 ];
+
+// Your WhatsApp number (replace with your actual number, include country code without +)
+// Example: 8801234567890 for Bangladesh
+const WHATSAPP_NUMBER = "+8801793310238"; // ← Replace with YOUR WhatsApp number
 
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap');
@@ -61,6 +66,7 @@ const CSS = `
     position: relative;
     z-index: 5;
     line-height: 1;
+    cursor: pointer;
   }
 
   .nb-logo span { opacity: 0.3; }
@@ -195,6 +201,7 @@ const CSS = `
     padding: 11px 14px;
     border-radius: 8px;
     transition: color 0.15s, background 0.15s;
+    cursor: pointer;
   }
 
   .nb-mobile-link:hover        { color: var(--nb-white); background: rgba(255,255,255,0.06); }
@@ -233,7 +240,72 @@ export default function Navbar() {
   const [active, setActive] = useState("Home");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
 
+  // Section IDs mapped to display names
+  const sectionMap = {
+    hero: "Home",
+    projects: "Work",
+    whoiam: "About",
+    contact: "Contact",
+  };
+
+  // Scroll spy logic
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isScrolling) return;
+      
+      const scrollPosition = window.scrollY + 200;
+      const sections = ["hero", "projects", "whoiam", "contact"];
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const { offsetTop, offsetHeight } = element;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            const newActive = sectionMap[section];
+            if (newActive && newActive !== active) {
+              setActive(newActive);
+            }
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isScrolling, active]);
+
+  // Smooth scroll to section
+  const scrollToSection = (sectionId, label) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      setIsScrolling(true);
+      setActive(label);
+      setOpen(false);
+      
+      element.scrollIntoView({ 
+        behavior: "smooth", 
+        block: "start" 
+      });
+      
+      setTimeout(() => {
+        setIsScrolling(false);
+      }, 1000);
+    }
+  };
+
+  // WhatsApp handler
+  const openWhatsApp = () => {
+    const message = "Hi! I'm interested in working with you.";
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, "_blank");
+  };
+
+  // Scroll handler for regular clicks
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll);
@@ -254,16 +326,16 @@ export default function Navbar() {
       >
         <div className="nb-bar">
 
-          {/* Logo */}
-          <motion.a
-            href="#"
+          {/* Logo - clicks to Home */}
+          <motion.div
             className="nb-logo"
+            onClick={() => scrollToSection("hero", "Home")}
             initial={{ opacity: 0, x: -18 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.45 }}
           >
             ASIF<span>.</span>
-          </motion.a>
+          </motion.div>
 
           {/* Curved tray */}
           <div className="nb-tray-wrap">
@@ -273,21 +345,15 @@ export default function Navbar() {
               preserveAspectRatio="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              {/*
-                Shape: attached full-width at top (y=0),
-                curves inward on both sides then drops down,
-                rounded bottom corners.
-              */}
               <path d="M0,0 Q38,0 38,24 L38,46 Q38,64 56,64 L304,64 Q322,64 322,46 L322,24 Q322,0 360,0 Z" />
             </svg>
 
             <nav className="nb-links">
               {NAV_LINKS.map((link, i) => (
-                <motion.a
+                <motion.button
                   key={link.label}
-                  href={link.href}
+                  onClick={() => scrollToSection(link.sectionId, link.label)}
                   className={`nb-link${active === link.label ? " nb-link--active" : ""}`}
-                  onClick={() => setActive(link.label)}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.34 + i * 0.07, duration: 0.38 }}
@@ -295,7 +361,7 @@ export default function Navbar() {
                   whileTap={{ scale: 0.95 }}
                 >
                   {link.label}
-                </motion.a>
+                </motion.button>
               ))}
             </nav>
           </div>
@@ -311,6 +377,7 @@ export default function Navbar() {
               className="nb-cta nb-cta-desk"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={openWhatsApp}
             >
               Let's talk
             </motion.button>
@@ -339,25 +406,25 @@ export default function Navbar() {
               style={{ transformOrigin: "top" }}
             >
               {NAV_LINKS.map((link, i) => (
-                <motion.a
+                <motion.button
                   key={link.label}
-                  href={link.href}
+                  onClick={() => scrollToSection(link.sectionId, link.label)}
                   className={`nb-mobile-link${active === link.label ? " nb-mobile-link--active" : ""}`}
-                  onClick={() => { setActive(link.label); setOpen(false); }}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.055 }}
                 >
                   {link.label}
-                </motion.a>
+                </motion.button>
               ))}
               <motion.button
                 className="nb-cta nb-cta-mob"
+                onClick={openWhatsApp}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.22 }}
               >
-                Get started
+                Let's talk
               </motion.button>
             </motion.nav>
           )}

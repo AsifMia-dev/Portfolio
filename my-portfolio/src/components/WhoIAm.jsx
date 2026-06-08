@@ -1,218 +1,283 @@
-// AboutMe.jsx
 import { motion } from "framer-motion";
 
-const fu = (d = 0) => ({
-  initial: { opacity: 0, y: 26 },
+const fadeUp = (d = 0) => ({
+  initial: { opacity: 0, y: 25 },
   animate: { opacity: 1, y: 0 },
-  transition: { delay: d, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  transition: { delay: d, duration: 0.5, ease: [0.22, 1, 0.36, 1] },
 });
 
+const hobbies = [
+  { emoji: "⚽", label: "Football" },
+  { emoji: "🏓", label: "Table Tennis" },
+  { emoji: "✈️", label: "Travelling" },
+  { emoji: "📚", label: "Reading" },
+];
+
 const CSS = `
-  .about-section {
-    width: 100%;
-    padding: 100px 2rem 100px 6rem;
-    background: #0f0e2a;
-    font-family: 'DM Sans', sans-serif;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
 
-  .about-container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+.about {
+  width: 100%;
+  background: #0f0e2a;
+  font-family: 'DM Sans', sans-serif;
+  position: relative;
+}
 
-  .about-header {
-    margin-bottom: 48px;
-  }
+.about-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 160px 32px 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
 
-  .about-badge {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(210,210,255,0.45);
-    margin-bottom: 16px;
-  }
+/* glow */
+.about-inner::before {
+  content: '';
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 250px;
+  background: radial-gradient(ellipse, rgba(167, 139, 250, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-  .about-title {
-    font-family: sans-serif;
-    font-weight: 800;
-    font-size: clamp(36px, 4.5vw, 52px);
-    letter-spacing: -1.5px;
-    color: #f0f0ff;
-    margin-bottom: 24px;
-  }
+/* label */
+.about-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #22d3ee;
+  margin-bottom: 14px;
+  z-index: 1;
+}
 
-  .about-title .grad {
-    background: linear-gradient(90deg, #22d3ee 0%, #a78bfa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+/* title */
+.about-title {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  color: #f0f0ff;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
 
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
-  }
+.about-title::after {
+  content: "";
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #22d3ee, #a78bfa);
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  transform: translateX(-50%);
+  border-radius: 10px;
+}
 
-  .about-text p {
-    font-size: 15px;
-    line-height: 1.7;
-    color: rgba(210,210,255,0.65);
-    margin-bottom: 20px;
-  }
+/* story */
+.about-story {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.9;
+  color: rgba(210, 210, 255, 0.6);
+  margin-bottom: 18px;
+  max-width: 680px;
+  z-index: 1;
+}
 
-  .about-highlight {
-    color: #22d3ee;
-    font-weight: 500;
-  }
+.about-story span {
+  color: #a78bfa;
+  font-weight: 500;
+}
 
-  .about-quote {
-    background: rgba(255, 255, 255, 0.03);
-    border-left: 3px solid #22d3ee;
-    padding: 20px 24px;
-    margin: 28px 0;
-    font-style: italic;
-    font-size: 14px;
-    color: rgba(210,210,255,0.75);
-  }
+/* vision box */
+.about-vision {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 16px;
+  padding: 20px 28px;
+  margin: 28px 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(210, 210, 255, 0.7);
+  max-width: 640px;
+  z-index: 1;
+  position: relative;
+}
 
-  .about-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 20px;
-  }
+.about-vision::before {
+  content: '🎯';
+  font-size: 20px;
+  display: block;
+  margin-bottom: 10px;
+}
 
-  .stat-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 16px;
-    padding: 20px;
-    text-align: center;
-  }
+.about-vision span {
+  color: #22d3ee;
+  font-weight: 500;
+}
 
-  .stat-number {
-    font-size: 28px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #22d3ee, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 8px;
-  }
+/* fuel label */
+.about-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(210, 210, 255, 0.3);
+  margin-bottom: 14px;
+  margin-top: 36px;
+  z-index: 1;
+}
 
-  .stat-label {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    color: rgba(210,210,255,0.45);
-    letter-spacing: 0.5px;
-  }
+/* fuel chips */
+.about-fuels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 52px;
+  z-index: 1;
+}
 
-  .journey-list {
-    list-style: none;
-    padding: 0;
-  }
+.about-fuel-chip {
+  padding: 7px 16px;
+  border-radius: 100px;
+  background: rgba(34, 211, 238, 0.07);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  font-size: 12px;
+  font-weight: 500;
+  color: #22d3ee;
+  letter-spacing: 0.04em;
+}
 
-  .journey-list li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    font-size: 14px;
-    color: rgba(210,210,255,0.65);
-  }
+/* hobbies */
+.about-hobbies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  z-index: 1;
+}
 
-  .journey-dot {
-    width: 6px;
-    height: 6px;
-    background: #22d3ee;
-    border-radius: 50%;
-  }
+.about-hobby-card {
+  width: 100px;
+  height: 100px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  cursor: default;
+}
 
-  @media (max-width: 860px) {
-    .about-section {
-      padding: 60px 28px;
-    }
-    .about-grid {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
-  }
+.about-hobby-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(167, 139, 250, 0.35);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+}
+
+.about-hobby-emoji {
+  font-size: 28px;
+}
+
+.about-hobby-label {
+  font-size: 12px;
+  color: rgba(210, 210, 255, 0.6);
+}
+
+.about-hobby-card:hover .about-hobby-label {
+  color: #f0f0ff;
+}
+
+/* fun fact */
+.about-fact {
+  margin-top: 52px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: rgba(210, 210, 255, 0.3);
+  letter-spacing: 0.04em;
+  z-index: 1;
+}
+
+.about-fact span {
+  color: #a78bfa;
+}
 `;
 
-export default function AboutMe() {
+export default function About() {
   return (
     <>
       <style>{CSS}</style>
-      <section className="about-section">
-        <div className="about-container">
-          <motion.div className="about-header" {...fu(0.1)}>
-            <span className="about-badge">● WHO AM I</span>
-            <h2 className="about-title">
-              More Than<span className="grad"> Code</span>
-            </h2>
+      <section className="about">
+        <div className="about-inner">
+
+          {/* Label */}
+          <motion.p className="about-label" {...fadeUp(0.1)}>
+            — who I am
+          </motion.p>
+
+          {/* Title */}
+          <motion.h2 className="about-title" {...fadeUp(0.2)}>
+            About Me
+          </motion.h2>
+
+          {/* Story */}
+          <motion.p className="about-story" {...fadeUp(0.3)}>
+            Hey, I'm <span>Asif Mia</span> — a CSE graduate who started coding in <span>2022</span>.
+            The moment I wrote my first lines of code, something clicked. It wasn't just programming —
+            it was a new way to <span>think logically</span>, break down complex problems and build real solutions.
+          </motion.p>
+
+          <motion.p className="about-story" {...fadeUp(0.35)}>
+            Subjects like <span>Discrete Mathematics</span>, <span>Theory of Computation</span> and <span>DSA</span> didn't
+            feel like coursework — they felt like fuel. When I started building projects with HTML, CSS and MySQL,
+            I hit a wall. My strong logical thinking had nowhere to land yet. But instead of quitting,
+            I kept digging — and that's when <span>Backend Engineering</span> started making sense to me.
+          </motion.p>
+
+          {/* Vision */}
+          <motion.div className="about-vision" {...fadeUp(0.4)}>
+            My vision is to go deep into <span>one domain</span> — like agriculture —
+            and use <span>AI, ML and cloud applications</span> to solve real, specific problems in that space.
+            Not just building apps, but building things that <span>actually matter</span>.
+          </motion.div>
+          {/* Hobbies */}
+          <motion.p className="about-sub" {...fadeUp(0.55)}>
+            outside the terminal
+          </motion.p>
+          <motion.div className="about-hobbies" {...fadeUp(0.6)}>
+            {hobbies.map((h, i) => (
+              <motion.div
+                key={i}
+                className="about-hobby-card"
+                whileHover={{ scale: 1.06 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="about-hobby-emoji">{h.emoji}</span>
+                <span className="about-hobby-label">{h.label}</span>
+              </motion.div>
+            ))}
           </motion.div>
 
-          <div className="about-grid">
-            {/* Left Column - Story */}
-            <motion.div className="about-text" {...fu(0.2)}>
-              <p>
-                I'm a <span className="about-highlight">CSE graduate</span> who discovered 
-                my passion for backend engineering late in college. What started as 
-                curiosity about "how things work under the hood" turned into an obsession.
-              </p>
-              
-              <p>
-                I love building <span className="about-highlight">scalable systems</span>, 
-                optimizing database queries, and creating APIs that are a joy to work with. 
-                The backend is where logic meets creativity — and that's my sweet spot.
-              </p>
+          {/* Fun fact */}
+          <motion.p className="about-fact" {...fadeUp(0.7)}>
+            // still debugging why coffee tastes better at <span>2am</span> while coding
+          </motion.p>
 
-              <div className="about-quote">
-                "I don't just write code. I build solutions that make people's lives easier."
-              </div>
-
-              <p>
-                Currently diving deeper into <span className="about-highlight">System Design</span>, 
-                <span className="about-highlight"> Cloud Architecture (AWS)</span>, and 
-                <span className="about-highlight"> AI Integration</span>. Always learning, 
-                always building.
-              </p>
-            </motion.div>
-
-            {/* Right Column - Stats & Journey */}
-            <motion.div {...fu(0.3)}>
-              <div className="about-stats">
-                <div className="stat-card">
-                  <div className="stat-number">50+</div>
-                  <div className="stat-label">PROJECTS BUILT</div>
-                </div>
-                <div className="stat-card">
-                  <div className="stat-number">1K+</div>
-                  <div className="stat-label">HOURS CODED</div>
-                </div>
-                <div className="stat-card">
-                  <div className="stat-number">∞</div>
-                  <div className="stat-label">CURIOSITY</div>
-                </div>
-              </div>
-
-              <div style={{ marginTop: "32px" }}>
-                <h3 style={{ fontSize: "18px", color: "#f0f0ff", marginBottom: "20px" }}>
-                  My Journey →
-                </h3>
-                <ul className="journey-list">
-                  <li><span className="journey-dot"></span> 2021: Started learning JavaScript</li>
-                  <li><span className="journey-dot"></span> 2022: Built first fullstack app</li>
-                  <li><span className="journey-dot"></span> 2023: Graduated CSE, focused on backend</li>
-                  <li><span className="journey-dot"></span> 2024: Currently mastering system design</li>
-                </ul>
-              </div>
-            </motion.div>
-          </div>
         </div>
       </section>
     </>
