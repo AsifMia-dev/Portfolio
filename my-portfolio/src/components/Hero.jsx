@@ -65,7 +65,7 @@ const CSS = `
   /* title */
   .hero-title {
     font-family: sans-serif;
-    font-weight: 800;
+    font-weight: 700;
     font-size: clamp(44px, 5.8vw, 80px);
     line-height: 1.05;
     letter-spacing: -2.5px;
@@ -280,6 +280,7 @@ const CSS = `
     .hero-right .hero-photo-card img { width: min(19vw, 160px); }
     .hero-slash { display: none; }
     .hero-photo-card { max-width: 100%; }
+    .hero-title { font-size: clamp(38px, 5vw, 64px); }
   }
 
 `;

@@ -7,6 +7,7 @@ import {
   FaNodeJs,
 } from "react-icons/fa";
 import { SiTailwindcss,SiExpress, SiMysql } from "react-icons/si";
+import { SiPrisma } from "react-icons/si";
 
 /* ── Tech Data with Brand Colors ── */
 const techs = [
@@ -18,6 +19,7 @@ const techs = [
   { name: "Node.js", icon: FaNodeJs, color: "#339933" },
   { name: "Express", icon: SiExpress, color: "#FFFFFF" },
   { name: "SQL", icon: SiMysql, color: "#4479A1" },
+  { name: "Prisma", icon: SiPrisma, color: "#5A67D8" },
 ];
 
 /* ── Animation ── */
@@ -34,8 +36,6 @@ const CSS = `
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  clip-path: polygon(0 80px, 100% 0%, 100% 100%, 0 100%);
-  margin-top: -80px;
   position: relative;
   font-family: 'DM Sans', sans-serif;
   padding-bottom: 3rem;
@@ -46,7 +46,7 @@ const CSS = `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 130px 20px 60px;
+  padding: 50px 20px 60px;
   position: relative;
   z-index: 1;
 }

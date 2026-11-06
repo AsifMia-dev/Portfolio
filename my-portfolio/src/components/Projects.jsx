@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 
 import pothikImg from "../assets/pothik.png";
 import pcImg from "../assets/pc.jpeg";
+import ecoWasteImg from "../assets/ecoWaste.png";
+import trustLoanImg from "../assets/Dashboard.png";
 
 const CloseIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -31,51 +33,99 @@ const fu = (d = 0) => ({
 
 const projectsData = [
   {
-    id: 1,
-    title: "Pothik",
-    description: "An online travel platform where users can build custom tour packages by selecting destination, duration, vehicle, accommodation, and guide — or book a prebuilt package instantly.",
-    fullDescription: "Pothik is a full-stack online travel platform designed to give travelers complete control over how they explore. Users can either browse and book curated prebuilt packages or craft their own custom tour from scratch — choosing their destination, trip duration, preferred vehicle, accommodation type, and local guide. Once the journey is complete, travelers can relive and share their experience through Pothik's built-in blog feature, posting stories, photos, and reviews for the community. The platform also includes a fully integrated payment system, allowing seamless transactions from booking to checkout — all in one place.",
-     features: [
-    "Custom package builder: destination, duration, vehicle, accommodation & guide",
-    "Browse and instantly book prebuilt tour packages",
-    "Integrated payment system for seamless checkout",
-    "Post-tour blog feature to share travel stories",
-    "JWT-based authentication with role-based access",
-    "Fully responsive UI built with React & Tailwind",
+  id: 1,
+  title: "Trust Loan Management System",
+  description:
+    "A Bengali-language web app that digitizes a cooperative savings group (somiti): loans, installment schedules, collections and overdue payments in one place.",
+  fullDescription:
+    "Trust Loan Management System replaces the manual record keeping of a cooperative savings group (somiti). It manages loans, generates installment schedules, records collections and tracks overdue payments. The backend is a set of JWT-secured, Joi-validated REST APIs, and loan, payment and balance changes run inside atomic database transactions so the records always stay consistent. The interface is fully in Bengali, built with reusable React components and Context API state management.",
+  features: [
+    "Loan management with installment schedules",
+    "Collection recording and overdue payment tracking",
+    "JWT-secured REST APIs with Joi request validation",
+    "Atomic transactions keep loan, payment and balance data consistent",
+    "Bengali-language React interface for real users",
+    "Reusable components with Context API state management",
   ],
+  learned:
+    "Learned to model financial data in PostgreSQL with Prisma and to use transactions so related records never get out of sync. I also learned to validate every request at the API boundary and design for non-technical users, in their own language.",
+  tech: ["React", "Node.js", "Express.js", "PostgreSQL", "Prisma"], // add Tailwind, Docker etc. only if used
+  image: trustLoanImg,
+  status: "live",
+  liveLink: "https://somiti.asifmia-tech.workers.dev",
+  githubLink: "https://github.com/AsifMia-dev/Somiti",
+},
 
-  learned: "Learned how to architect a multi-feature platform with complex relational data, secure JWT authentication, and payment integration.",
-   
-    tech: ["React", "Express.js", "MySQL", "Tailwind"],
-    image: pothikImg,
-    status: "live",
-    liveLink: "https://pothik-six.vercel.app/",
-    githubFrontend: "https://github.com/AsifMia-dev/Pothik-Frontend.git",
-    githubBackend: "https://github.com/IbrahimZihad/Pothik-Backend.git",
-  },
   {
-    id: 2,
-    title: "Pc store",
-    description: "A React-based e-commerce web application for browsing and purchasing PC components and pre-built systems.",
-
-fullDescription: "This project is a frontend e-commerce application built with React, designed for a PC store. It allows users to explore various computer components and pre-built PCs, add items to their cart, and place orders. The application uses a JSON-based API for data management and demonstrates core frontend concepts such as reusable components, routing, and state management using Context API. An admin panel is also included for managing products, where admins can add or delete items from the store.",
-
-features: [
-"Browse PC components and pre-built PCs",
-"Add to cart and place orders",
-"Reusable component-based architecture",
-"Client-side routing with React Router",
-"State management using Context API",
-"Admin panel to add and delete products",
-"Data handling using JSON API"
-],
-
-learned: "Built my first React application and gained hands-on experience with reusable components, API consumption, routing, Context API for state management, and structuring a scalable frontend project.",
-    tech: ["React.js","JSON Data","Tailwind"],
-    image: pcImg,
-    status: "github",
-    githubLink: "https://github.com/AsifMia-dev/PcStore.git",
-  }
+  id: 2, // Somiti goes first (id: 1) when you add it, same order as your CV
+  title: "Pothik",
+  description:
+    "An online travel platform where users build custom tour packages (destination, duration, vehicle, accommodation, guide) or book a prebuilt package instantly.",
+  fullDescription:
+    "Pothik is a full-stack online travel agency platform built as a team final year project. Travelers can browse and book curated prebuilt packages or customize their own, then share their trip through the built-in blog. Role-based access separates travelers from admins, and the backend is organized into router, controller and service layers with middleware for request processing. I contributed across the full SDLC, from requirements and design to development, testing and deployment.",
+  features: [
+    "Custom package builder: destination, duration, vehicle, accommodation & guide",
+    "Browse and book prebuilt tour packages",
+    "Checkout flow for bookings", // change to the gateway name if it's real
+    "Post-tour blog to share travel stories",
+    "JWT authentication with role-based access control",
+    "Protected routes and reusable components on the frontend",
+  ],
+  learned:
+    "Learned to structure a backend into routers, controllers and services, model relational data in MySQL, and secure routes with JWT and role-based access.",
+  tech: ["React", "Express.js", "MySQL"], // add "Tailwind" only if you used it
+  image: pothikImg,
+  status: "live",
+  liveLink: "https://pothik-six.vercel.app/",
+  githubFrontend: "https://github.com/AsifMia-dev/Pothik-Frontend",
+  githubBackend:
+    "https://github.com/IbrahimZihad/Pothik-Backend/tree/main/pothikbackendapp",
+},
+{
+  id: 3,
+  title: "EcoWaste",
+  description:
+    "A role-based waste management platform connecting residents, collectors, recycling centers and admins, with zone-based request routing and collector photo proof.",
+  fullDescription:
+    "EcoWaste is a team project I led, built with a team of four. We started from a Figma prototype, built the UI first, then added functionality step by step in PHP and MySQL. The platform has four roles. Residents request waste collection from home, collectors collect and mark requests as collected with a message and photo proof, recycling centers track separated waste, and admins manage collectors, residents, recycling centers and requests. Residents and their assigned collector can message each other, and residents can rate the service.",
+  features: [
+    "Four roles: resident, collector, recycling center, admin",
+    "Collection requests routed by zone",
+    "Collector photo proof when marking a request collected",
+    "Resident and collector messaging",
+    "Ratings for collection service",
+    "Admin management of collectors, residents, centers and requests",
+    "Recycling center tracking of separated waste",
+  ],
+  learned:
+    "Learned to lead a four-person team through a full cycle, from a Figma prototype to a working PHP and MySQL app. I also learned to design role-based flows where several user types share the same data.",
+  tech: ["PHP", "MySQL", "HTML", "CSS"],
+  image: ecoWasteImg,
+  status: "github",
+  githubLink: "https://github.com/Nirab410/Waste-Management-System",
+},
+{
+  id: 4,
+  title: "PC Store",
+  description:
+    "A React e-commerce frontend for browsing PC components and pre-built systems, with login, protected routes and a cart.",
+  fullDescription:
+    "PC Store is a frontend e-commerce application built with React and Vite. Users can browse a product catalog, filter by category, add items to the cart and go through checkout. Login and registration flows protect the cart, profile and checkout routes, and state is managed with the Context API. Data comes from a JSON API, and an admin panel lets admins add or delete products.",
+  features: [
+    "Product catalog with category filtering",
+    "Cart and simulated checkout (JSON API, no payment backend)",
+    "Login and registration with protected routes",
+    "Client-side routing with React Router",
+    "State management with Context API",
+    "Admin panel to add and delete products",
+  ],
+  learned:
+    "My first React project. I learned reusable components, routing, protected routes and managing shared state with Context API.",
+  tech: ["React.js", "Vite", "Context API"], // add "Tailwind" if used
+  image: pcImg,
+  status: "github",
+  githubLink: "https://github.com/AsifMia-dev/PcStore",
+},
 ];
 
 const CSS = `
