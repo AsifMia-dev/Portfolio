@@ -197,12 +197,12 @@ const CSS = `
 }
 
 .hero-photo-card img {
-  width: 100%;
-  aspect-ratio: 3/4;
+  width: min(100%, 320px);
+  aspect-ratio: 3.3/4;
   object-fit: cover;
   object-position: top center;
   display: block;
-  border-radius: 20px;
+  border-radius: 50%;
 
   /* shadow behind the image itself */
   filter: drop-shadow(0px 20px 60px rgba(120, 80, 255, 0.5))
@@ -263,10 +263,22 @@ const CSS = `
     .hero-slash { display: none; }
   }
 
+  @media (max-width: 1024px) and (min-width: 861px) {
+    .hero-photo-card img { width: min(100%, 260px); }
+  }
+
   @media (max-width: 860px) {
     .hero { flex-direction: column; }
-    .hero-left { width: 100%; padding: 60px 28px 40px; }
-    .hero-right { display: none; }
+    .hero-left { width: 100%; padding: 24px 28px 40px; }
+    .hero-right {
+      display: flex;
+      order: -1;
+      width: 100%;
+      justify-content: flex-start;
+      padding: 2rem 28px 0;
+    }
+    .hero-right .hero-photo-card img { width: min(19vw, 160px); }
+    .hero-slash { display: none; }
     .hero-photo-card { max-width: 100%; }
   }
 
@@ -289,16 +301,12 @@ export default function Hero() {
         {/* LEFT */}
         <div className="hero-left">
           <motion.h1 className="hero-title" {...fu(0.2)}>
-            Aspiring<br />
-            <span className="grad">Backend Engineer</span><br />
-            JavaScript<br />
-            Developer
+            <span className="grad">Fullstack</span><br />
+             Web Developer
           </motion.h1>
 
           <motion.p className="hero-desc" {...fu(0.32)}>
-            I craft fullstack web apps. A CSE graduate driven by
-            curiosity in Backend Engineering and AI, turning
-            complex ideas into real, working solutions.
+            CSE graduate from UIU. I like the part of web apps users never see: data models, auth and the logic that keeps money and records correct. See what I’ve shipped below.
           </motion.p>
 
           <motion.div className="hero-btns" {...fu(0.42)}>
